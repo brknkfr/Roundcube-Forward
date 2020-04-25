@@ -25,9 +25,11 @@ if (window.rcmail) {
 
 	rcmail.addEventListener('init', function(evt) {
 
-		var tab = $('<span>').attr('id', 'settingstabpluginforward').addClass('tablink');
+		var tab = $('<li>').attr('id', 'settingstabpluginforward').addClass('listitem forward');
 
 		var button = $('<a>').attr('href', rcmail.env.comm_path + '&_action=plugin.forward').html(rcmail.gettext('forward', 'forward')).appendTo(tab);
+		button.attr('role', 'button');
+		button.addClass('forward');
 
 		button.bind('click', function(e) {
 			return rcmail.command('plugin.forward', this);
