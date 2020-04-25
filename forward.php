@@ -70,7 +70,7 @@ class forward extends rcube_plugin {
 
 	public function forward_form() {
 
-		$table = new html_table(array('cols' => 2));
+		$table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
 		$field_id = 'forwardforwards';
 		$text_forwardforwards = new html_textarea(array('name' => '_forwardforwards', 'id' => $field_id, 'spellcheck' => 1, 'rows' => 6, 'cols' => 40));
@@ -82,7 +82,7 @@ class forward extends rcube_plugin {
 		$table->add('title', html::label($field_id, rcmail::Q($this->gettext('forwardkeepcopies'))));
 		$table->add(null, $input_forwardkeepcopies->show($this->obj->is_forward_keepcopies() === true || $this->obj->is_forward_keepcopies() == "1" || $this->obj->is_forward_keepcopies() == "t" || $this->obj->is_forward_keepcopies() == "y" || $this->obj->is_forward_keepcopies() == "yes" ? 1 : 0));
 
-		$out = html::div(array('class' => "box"), html::div(array('id' => "prefs-title", 'class' => 'boxtitle'), $this->gettext('forward')) . html::div(array('class' => "boxcontent"), $table->show() . html::p(null, $this->rc->output->button(array('command' => 'plugin.forward-save', 'type' => 'input', 'class' => 'button mainaction', 'label' => 'save')))));
+		$out = html::div(array('class' => "box formcontainer scroller"), html::div(array('id' => "prefs-title", 'class' => 'boxtitle'), $this->gettext('forward')) . html::div(array('class' => "boxcontent formcontent"), $table->show() . html::p(null, $this->rc->output->button(array('command' => 'plugin.forward-save', 'type' => 'input', 'class' => 'button mainaction', 'label' => 'save')))));
 
 		$this->rc->output->add_gui_object('forwardform', 'forward-form');
 
