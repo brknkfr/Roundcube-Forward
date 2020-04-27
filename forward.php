@@ -47,6 +47,7 @@ class forward extends rcube_plugin {
 
 		$this->load_config();
 		$this->require_plugin('jqueryui');
+                $this->add_hook('settings_actions', array($this, 'forward_settings'));
 
 		require_once ($this->home . '/lib/rcube_forward.php');
 		$this->obj = new rcube_forward();
@@ -58,6 +59,17 @@ class forward extends rcube_plugin {
 		$this->register_handler('plugin.body', array($this, 'forward_form'));
 		$this->rc->output->set_pagetitle($this->gettext('forward'));
 		$this->rc->output->send('plugin');
+		}
+
+	public function forward_settings($args) {
+		$args['actions'][] = array(
+			'action' => 'plugin.forward',
+			'class'  => 'forward',
+			'label'  => 'forward',
+			'domain' => 'forward',
+			'title'  => 'forward',
+		);
+		return $args;
 		}
 
 	public function forward_save() {
@@ -81,8 +93,8 @@ class forward extends rcube_plugin {
 		$input_forwardkeepcopies = new html_checkbox(array('name' => '_forwardkeepcopies', 'id' => $field_id, 'value' => 1));
 		$table->add('title', html::label($field_id, rcmail::Q($this->gettext('forwardkeepcopies'))));
 		$table->add(null, $input_forwardkeepcopies->show($this->obj->is_forward_keepcopies() === true || $this->obj->is_forward_keepcopies() == "1" || $this->obj->is_forward_keepcopies() == "t" || $this->obj->is_forward_keepcopies() == "y" || $this->obj->is_forward_keepcopies() == "yes" ? 1 : 0));
-
-		$out = html::div(array('class' => "box formcontainer scroller"), html::div(array('id' => "prefs-title", 'class' => 'boxtitle'), $this->gettext('forward')) . html::div(array('class' => "boxcontent formcontent"), $table->show() . html::p(null, $this->rc->output->button(array('command' => 'plugin.forward-save', 'type' => 'input', 'class' => 'button mainaction', 'label' => 'save')))));
+ 
+		$out = html::div(array('class' => "box formcontainer scroller"), html::div(array('id' => "prefs-title", 'class' => 'boxtitle'), $this->gettext('forward')) . html::div(array('class' => "boxcontent formcontent"), $table->show() ) . html::p(array('class' => "formbuttons footerleft"), $this->rc->output->button(array('command' => 'plugin.forward-save', 'type' => 'input', 'class' => 'button mainaction submit btn', 'label' => 'save'))));
 
 		$this->rc->output->add_gui_object('forwardform', 'forward-form');
 
